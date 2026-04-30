@@ -13,6 +13,7 @@ This project focuses on analyzing health insurance claims data and building a ma
 ## Dataset
 
 The dataset contains health insurance claim information including:
+   Dataset used -  https://www.kaggle.com/datasets/leandrenash/enhanced-health-insurance-claims-dataset/data 
 
     - Claim amount
     - Patient age
