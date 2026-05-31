@@ -1,104 +1,154 @@
-# Project Overview
+# 🏥 Health Insurance Claims Prediction
 
-This project focuses on analyzing health insurance claims data and building a machine learning model to predict claim outcomes (e.g., approved, denied, pending). The goal is to identify key factors influencing claim status and evaluate model performance using classification techniques.
+##  Project Overview
 
-# Objective
+This project develops and evaluates machine learning models to predict health insurance claim outcomes using patient, provider, and claim-related information.
 
-    - Perform Exploratory Data Analysis (EDA) on insurance claims data
-    - Clean and preprocess the dataset
-    - Engineer useful features to improve prediction
-    - Build classification models to predict claim status
-    - Evaluate model performance using accuracy and classification metrics
+The goal is to classify claims into one of three categories:
+- Approved
+- Denied
+- Pending
 
-## Dataset
+The project demonstrates a complete machine learning workflow including data preprocessing, exploratory data analysis (EDA), feature engineering, model training, hyperparameter tuning, and evaluation.
 
-The dataset contains health insurance claim information including:
-   Dataset used -  https://www.kaggle.com/datasets/leandrenash/enhanced-health-insurance-claims-dataset/data 
+---
 
-    - Claim amount
-    - Patient age
-    - Patient income
-    - Claim type
-    - Provider location
-    - Claim submission method
-    - Claim status (target variable)
+##  Objective
 
-## Data Cleaning 
+The main objectives of this project are to:
 
-The following steps were performed:
+- Analyze health insurance claims data
+- Prepare and clean data for machine learning
+- Engineer meaningful predictive features
+- Build classification models to predict claim outcomes
+- Compare model performance using multiple evaluation metrics
+- Identify key factors influencing claim status
 
-    - Removed duplicate records
-    - Handled missing values (median for numeric, mode for categorical)
-    - Dropped ID columns (e.g., ClaimID, PatientID)
-    - Encoded categorical variables
-    - Created new feature: ClaimPerAge
+---
 
-### Exploratory Data Analysis (EDA)
+##  Dataset
 
-    EDA was performed to understand:
+**Source:**  
+Kaggle – Enhanced Health Insurance Claims Dataset  
+https://www.kaggle.com/datasets/leandrenash/enhanced-health-insurance-claims-dataset/data
 
-    - Distribution of claim status (target imbalance check)
-    - Distribution of numerical features
-    - Correlation between variables
-    - Outlier detection using box plots
-    - Feature relationships with target variable
+### Dataset Features
 
-### Machine Learning Models
+- Claim Amount  
+- Patient Age  
+- Patient Income  
+- Claim Type  
+- Provider Location  
+- Claim Submission Method  
+- Claim Status *(Target Variable)*  
 
-    The following models were used:
+---
 
-    - Logistic Regression
-    - Random Forest Classifier
+##  Data Preparation
 
-## Feature Engineering
+### Feature Selection
 
-    A new feature was created:
+The following identifier columns were removed as they do not contribute to prediction:
 
-    - ClaimPerAge = ClaimAmount / (PatientAge + 1)
+- ClaimID  
+- PatientID  
+- ProviderID  
 
-## Model Training Process
+---
 
-- Dataset split into training (80%) and testing (20%)
-- One-hot encoding used for categorical variables
-- Label encoding applied to target variable
-- Random Forest model trained with 300 estimators
-- Stratified split used to preserve class distribution
+### Encoding
 
-## Evaluation Metrics
+- **Label Encoding** was applied to the target variable (`ClaimStatus`)
+- **One-Hot Encoding** was applied to categorical features
 
-    Model performance was evaluated using:
-    - Accuracy Score
-    - Precision
-    - Recall
-    - F1-Score
-    - Confusion Matrix
+---
 
-## Results
+### Feature Engineering
 
-    - Model achieved an accuracy of approximately 0.41 (41%)
-    - Performance indicates class imbalance and feature complexity
-    - Further tuning and feature engineering may improve results
+A new feature was created:
 
-## Key Insights
+\[
+ClaimPerAge = \frac{ClaimAmount}{(PatientAge + 1)}
+\]
 
-    - Claim status distribution is imbalanced
-    - Certain features have stronger influence on prediction
-    - Feature importance shows key drivers of model decisions 
+This feature helps normalize claim amount relative to patient age.
 
-## Future Improvements
+---
 
-    - Handle class imbalance (SMOTE / class weighting)
-    - Hyperparameter tuning (GridSearchCV)
-    - Try advanced models (XGBoost, LightGBM)
-    - Improve feature selection
-    - Remove high-cardinality noise features (e.g., IDs)
+### Train-Test Split
 
-## Tech Stack
+- Training Set: 80%
+- Testing Set: 20%
 
-    Python
-    Pandas, NumPy
-    Matplotlib, Seaborn
-    Scikit-learn
+Stratified sampling was used to maintain class distribution across splits.
+
+---
+
+### Feature Scaling
+
+- `StandardScaler` was applied for Logistic Regression
+- Random Forest was trained without dependency on scaling, but scaling was kept for consistency
+
+---
+
+##  Exploratory Data Analysis (EDA)
+
+The following analyses were performed:
+
+- Claim Status Distribution
+- Claim Type Distribution
+- Histograms of numerical features
+- Correlation heatmap
+- Feature importance analysis
+
+These helped identify patterns and relationships in the dataset.
+
+---
+
+##  Machine Learning Models
+
+### 1. Dummy Classifier (Baseline)
+
+Used as a benchmark model that predicts the most frequent class.
+
+---
+
+### 2. Logistic Regression
+
+- Interpretable baseline model
+- Effective for multi-class classification
+- Used as a comparison model
+
+---
+
+### 3. Random Forest Classifier
+
+- Captures nonlinear relationships
+- Handles feature interactions
+- Reduces overfitting using ensemble learning
+- Provides feature importance scores
+
+---
+
+##  Hyperparameter Tuning
+
+Grid Search Cross Validation was used:
+
+```python
+param_grid = {
+    "n_estimators": [100, 200, 300],
+    "max_depth": [5, 10, 15]
+}
+```
+
+## Model Performance
+
+| Model                | Accuracy |
+|---------------------|----------|
+| Dummy Classifier    | 33.89%   |
+| Logistic Regression | 34.56%   |
+| Random Forest       | 34.78%   |
+
 
 ## How to Run the Project
 
